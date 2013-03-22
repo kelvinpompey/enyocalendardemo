@@ -4447,6 +4447,7 @@ appointments: [],
 destCell: "",
 handlers: {
 ondrag: "dragging",
+ondragstart: "dragStart",
 ondragfinish: "dragFinished",
 ondragover: "dragOver"
 },
@@ -4473,7 +4474,12 @@ content: e === 1 ? "YES" : ""
 },
 components: [ {
 kind: "enyo.DragAvatar",
-components: []
+name: "dragAvatar",
+components: [ {
+content: "YES",
+kind: "GridCell",
+name: "gridCell"
+} ]
 }, {
 kind: "List",
 style: "top: 19px;width: 10%;text-align:right",
@@ -4503,8 +4509,12 @@ _.each(e, function(e) {
 t.$.grid.children[e].setContent(t.appointments[e] === 1 ? "YES" : "");
 });
 },
+dragStart: function(e, t) {
+var n = t.originator.getContent();
+this.$.dragAvatar.$.gridCell.setContent(n), console.log("cellContents", n);
+},
 dragging: function(e, t) {
-this.$.dragAvatar.drag(t);
+console.log("dragging ", this.$.dragAvatar.$.gridCell), this.$.dragAvatar.drag(t);
 },
 dragFinished: function(e, t) {
 this.$.dragAvatar.hide(), this.appointments[this.destCell.index] = this.appointments[t.originator.index], this.appointments[t.originator.index] = 0, console.log("drag finished at ", this.destCell, this.destCell.index, this.appointments), this.updateGridAtIndices([ this.destCell.index, t.originator.index ]);

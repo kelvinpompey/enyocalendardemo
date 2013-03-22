@@ -7,6 +7,7 @@
     destCell: '',
     handlers: {
         'ondrag': 'dragging',
+        'ondragstart':'dragStart',
         'ondragfinish': 'dragFinished',
         'ondragover' : 'dragOver'        
     },
@@ -43,7 +44,9 @@
         console.log(this.appointments);
     },
     components: [
-        {kind: 'enyo.DragAvatar', components:[]},
+        {kind: 'enyo.DragAvatar', name: 'dragAvatar', components: [
+                    {content: 'YES', kind: 'GridCell', name: 'gridCell'}
+        ]},
         { kind: 'List', style: 'top: 19px;width: 10%;text-align:right', onSetupItem: 'setupList', count: 8, components:[
             { name: 'listItem', style: 'height: 24px' }
         ]},
@@ -68,12 +71,24 @@
         });
     },
 
+    dragStart: function(sender, event) {        
+        //this.$.dragAvatar.destroyComponents();
+        //this.$.dragAvatar.createComponent(event.originator, {owner: this});
+        var cellContents = event.originator.getContent(); 
+        this.$.dragAvatar.$.gridCell.setContent(cellContents);         
+        console.log('cellContents', cellContents);        
+        //this.$.dragAvatar.$.avatarCell.setContent(cellContents); 
+        //console.log('dragStart: ', this.$.dragAvatar); 
+    }, 
+
     dragging: function (sender, event) {
+        console.log('dragging ', this.$.dragAvatar.$.gridCell);
         this.$.dragAvatar.drag(event); 
     },
     
     dragFinished: function (sender, event) {
-        this.$.dragAvatar.hide();
+        this.$.dragAvatar.hide();          
+
         this.appointments[this.destCell.index] = this.appointments[event.originator.index];
         this.appointments[event.originator.index] = 0;
         console.log('drag finished at ', this.destCell, this.destCell.index, this.appointments);
