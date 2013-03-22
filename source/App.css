@@ -1,0 +1,29 @@
+/*
+	Put anything you reference with "url()" in ../assets/
+	This way, you can minify your application, and just remove the "source" folder for production
+*/
+.nice-padding {
+	padding: 15px;
+}
+
+.day {
+    float: left; 
+
+}
+
+.grid-cell {
+    float:left; 
+    width:89px; 
+    height:21px;
+    text-align: center; 
+    border: solid 1px #343434;
+}
+
+.grid-cell:hover {
+    
+}
+
+.selected {
+    background-color: yellowgreen;
+}
+
